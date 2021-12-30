@@ -26,6 +26,7 @@ import {
 } from "./styles";
 
 import { categories } from "../../utils/categories";
+import { useAuth } from "../../hooks/auth";
 
 interface TransactionData {
   type: "positive" | "negative";
@@ -45,6 +46,7 @@ interface CategoryData {
 }
 
 export function Resume() {
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>(
@@ -63,7 +65,7 @@ export function Resume() {
 
   async function loadData() {
     setIsLoading(true);
-    const dataKey = "@gofinances:transactions";
+    const dataKey = `@gofinances:transactions_user${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
 
@@ -166,8 +168,8 @@ export function Resume() {
                 },
               }}
               labelRadius={50}
-              x="percent"
-              y="total"
+              x={(c) => c.percent}
+              y={(c) => c.total}
             />
           </ChartContainer>
 
