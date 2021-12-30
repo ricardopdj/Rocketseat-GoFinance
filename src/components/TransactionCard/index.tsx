@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { categories } from "../../utils/category";
+import { categories } from "../../utils/categories";
 
 import {
   Container,
